@@ -19,14 +19,30 @@ function index(req, res) {
 //todo show
 function show(req, res) {
     const { id } = req.params
-    const sql = `SELECT * FROM movies WHERE id = ?`;
 
-    connection.query(sql, [id], (err, results) => {
+    const movieSql = `SELECT * FROM movies WHERE id = ?`;
+
+    const reviewsSql = 'SELECT * FROM reviews WHERE movie_id = ?';
+
+    connection.query(movieSql, [id], (err, movieResults) => {
         if (err) return res.status(500).json({
-            error: "Server Side Error INDEX function"
+            error: "Server Side Error SHOW function"
         });
 
-        res.json(results)
+        //task controllo se movieResults ===0
+        movieResults === 0 && res.status(404).json({ error: 'Film Non Trovato' });
+
+        const movie = movieResults[0]
+
+        connection.query(reviewsSql, [id], (err, revResults) => {
+            if (err) return res.status(500).json({
+                error: "Server Side Error SHOW function"
+            });
+
+            movie.reviews = revResults;
+
+            res.json(movie)
+        })
     })
 
 }
