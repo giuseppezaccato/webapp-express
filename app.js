@@ -17,6 +17,7 @@ app.use(express.json())
 //task monto il router
 app.use('/movies', moviesRouter)
 
+
 //task attivazione server
 app.listen(port, () => {
     console.log(`server in ascolto sulla porta ${port}`)

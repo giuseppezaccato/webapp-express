@@ -8,7 +8,8 @@ const router = express.Router();
 import {
     index,
     show,
-    destroy
+    destroy,
+    update
 } from "../controllers/movieController.js"
 
 //*routing movies
@@ -26,6 +27,12 @@ router.get('/:id', show)
 
 //todo destroy ==>risultato finale = localhost:3000/movies/:id
 router.delete('/:id', destroy)
+
+
+//todo update ==>risultato finale = localhost:3000/movies/:id
+router.patch('/:id/image', update)
+
+
 
 //task esportazione
 export default router;

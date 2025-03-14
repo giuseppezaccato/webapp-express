@@ -13,7 +13,6 @@ function index(req, res) {
         });
         res.json(results);
     })
-
 }
 
 //todo show
@@ -47,11 +46,42 @@ function show(req, res) {
 
 }
 
+//todo patch (piccolissimo bonus) 
+function update(req, res) {
+    const { id } = req.params
+    const { image } = req.body
+
+    const sql = `
+            UPDATE movies SET image = ? WHERE id = ?;
+    `
+    connection.query(sql, [image, id], (err) => {
+        if (err) return res.status(500).json({
+            error: "Server Side Error UPDATE function"
+        });
+
+        res.json({ message: "Movie updated successfully" });
+    })
+}
+
+// oppure direttamente in mySQL con questa stringa che in sequenza cambia tutti i nomi
+//          UPDATE movies  -- tabella da modificare
+//          SET image = CASE  -- condizioni multiple.
+//              WHEN id = 1 THEN 'inception.jpg'      -- Se l'id della riga è 1, imposta il valore della colonna 'image' a 'inception.jpg'.
+//              WHEN id = 2 THEN 'the_godfather.jpg'  -- Se l'id della riga è 2, imposta il valore della colonna 'image' a 'the_godfather.jpg'.
+//              WHEN id = 3 THEN 'titanic.jpg'        -- Se l'id della riga è 3, imposta il valore della colonna 'image' a 'titanic.jpg'.
+//              WHEN id = 4 THEN 'matrix.jpg'         -- Se l'id della riga è 4, imposta il valore della colonna 'image' a 'matrix.jpg'.
+//              WHEN id = 5 THEN 'interstellar.jpg'   -- Se l'id della riga è 5, imposta il valore della colonna 'image' a 'interstellar.jpg'.
+
+//              ELSE image  -- Se l'id non corrisponde a nessuna delle condizioni precedenti, mantiene il valore corrente della colonna 'image'.
+//          END             -- Termina l'espressione CASE.
+//          WHERE id IN(1, 2, 3, 4, 5);  -- Applica l'UPDATE solo alle righe con id 1, 2, 3, 4 o 5.
+
+
 //todo destroy
 function destroy(req, res) {
     const { id } = req.params;
 
-    const sql = `DELETE * FROM movies WHERE id = ?`;
+    const sql = `DELETE * FROM movies WHERE id = ? `;
 
     connection.query(sql, [id], (err) => {
         if (err) return res.status(500).json({
@@ -63,6 +93,6 @@ function destroy(req, res) {
 
 }
 
-export { index, show, destroy };
+export { index, show, destroy, update };
 
 
