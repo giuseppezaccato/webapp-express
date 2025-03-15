@@ -1,3 +1,4 @@
 node_modules
 .env
 movies_db.sql
+updatedMovies_db.sql

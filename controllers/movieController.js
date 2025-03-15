@@ -11,7 +11,14 @@ function index(req, res) {
         if (err) return res.status(500).json({
             error: "Server Side Error INDEX function"
         });
-        res.json(results);
+        // res.json(results); //* AGGIORNAMENTO CON USO MIDDLEWARE
+        const movies = results.map(m => {
+            return {
+                ...m,
+                image: req.imagePath + m.image,
+            };
+        });
+        res.json(movies)//* RISULTATO CON USO MIDDLEWARE
     })
 }
 
@@ -40,7 +47,12 @@ function show(req, res) {
 
             movie.reviews = revResults;
 
-            res.json(movie)
+            // res.json(movie)//* AGGIORNAMENTO CON USO MIDDLEWARE
+            res.json({
+                ...movie,
+                image: req.imagePath + movie.image,
+            })
+            res.json(movie) //* RISULTATO CON USO MIDDLEWARE
         })
     })
 
@@ -52,7 +64,9 @@ function update(req, res) {
     const { image } = req.body
 
     const sql = `
-            UPDATE movies SET image = ? WHERE id = ?;
+            UPDATE movies
+            SET image = ?
+            WHERE id = ?;
     `
     connection.query(sql, [image, id], (err) => {
         if (err) return res.status(500).json({
@@ -63,14 +77,14 @@ function update(req, res) {
     })
 }
 
-// oppure direttamente in mySQL con questa stringa che in sequenza cambia tutti i nomi
+//* oppure direttamente in mySQL con questa stringa che in sequenza cambia tutti i nomi
 //          UPDATE movies  -- tabella da modificare
 //          SET image = CASE  -- condizioni multiple.
-//              WHEN id = 1 THEN 'inception.jpg'      -- Se l'id della riga è 1, imposta il valore della colonna 'image' a 'inception.jpg'.
-//              WHEN id = 2 THEN 'the_godfather.jpg'  -- Se l'id della riga è 2, imposta il valore della colonna 'image' a 'the_godfather.jpg'.
-//              WHEN id = 3 THEN 'titanic.jpg'        -- Se l'id della riga è 3, imposta il valore della colonna 'image' a 'titanic.jpg'.
-//              WHEN id = 4 THEN 'matrix.jpg'         -- Se l'id della riga è 4, imposta il valore della colonna 'image' a 'matrix.jpg'.
-//              WHEN id = 5 THEN 'interstellar.jpg'   -- Se l'id della riga è 5, imposta il valore della colonna 'image' a 'interstellar.jpg'.
+//              WHEN id = 1 THEN 'inception.jpg'      -- IF id = 1 ? SET 'image' = 'inception.jpg'.
+//              WHEN id = 2 THEN 'the_godfather.jpg'  -- IF id = 2 ? SET 'image' = 'the_godfather.jpg'.
+//              WHEN id = 3 THEN 'titanic.jpg'        -- IF id = 3 ? SET 'image' = 'titanic.jpg'.
+//              WHEN id = 4 THEN 'matrix.jpg'         -- IF id = 4 ? SET 'image' = 'matrix.jpg'.
+//              WHEN id = 5 THEN 'interstellar.jpg'   -- IF id = 5 ? SET 'image' = 'interstellar.jpg'.
 
 //              ELSE image  -- Se l'id non corrisponde a nessuna delle condizioni precedenti, mantiene il valore corrente della colonna 'image'.
 //          END             -- Termina l'espressione CASE.

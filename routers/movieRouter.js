@@ -28,9 +28,8 @@ router.get('/:id', show)
 //todo destroy ==>risultato finale = localhost:3000/movies/:id
 router.delete('/:id', destroy)
 
-
 //todo update ==>risultato finale = localhost:3000/movies/:id
-router.patch('/:id/image', update)
+router.patch('/:id', update)
 
 
 
