@@ -41,18 +41,18 @@ function show(req, res) {
         const movie = movieResults[0]
 
         connection.query(reviewsSql, [id], (err, revResults) => {
-            if (err) return res.status(500).json({
-                error: "Server Side Error SHOW function"
-            });
+            if (err)
+                return res.status(500).json({
+                    error: "Server Side Error SHOW function"
+                });
 
             movie.reviews = revResults;
 
             // res.json(movie)//* AGGIORNAMENTO CON USO MIDDLEWARE
             res.json({
                 ...movie,
-                image: req.imagePath + movie.image,
-            })
-            res.json(movie) //* RISULTATO CON USO MIDDLEWARE
+                image: req.imagePath + movie.image, //* RISULTATO CON USO MIDDLEWARE
+            });
         })
     })
 
