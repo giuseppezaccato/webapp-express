@@ -3,6 +3,7 @@ import express from 'express';
 
 //task import router
 import moviesRouter from './routers/movieRouter.js';
+import cors from 'cors'
 
 //task import middleware gestioneIMG
 import imagePathMiddleware from './middlewares/handleImagePath.js';
@@ -23,6 +24,10 @@ app.use(express.json())
 //task monto il router
 app.use('/movies', moviesRouter)
 
+//task middleware cors
+app.use(cors({
+    origin: "http://localhost:5173" //porta standard react
+}))
 
 //task attivazione server
 app.listen(port, () => {

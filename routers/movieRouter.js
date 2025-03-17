@@ -14,9 +14,10 @@ import {
 
 //*routing movies
 /*SyntaxRecap ==> {
-    router: 
+    //? router.get('/:id', show)    
+    router: istanza di express.Router() => definisce route modulari
     .get('/'): verboHTTP.('percorsoRadice /: Params')
-    index : funzione CallBack importata dal Controller
+    show : funzione CallBack importata da movieController
 }*/
 
 //todo index ==>risultato finale = localhost:3000/movies
