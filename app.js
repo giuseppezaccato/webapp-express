@@ -11,6 +11,12 @@ import imagePathMiddleware from './middlewares/handleImagePath.js';
 //task impostazione express e porta server
 const app = express();
 const port = process.env.SERVER_PORT || 3000;
+const frontend = process.env.FRONTEND_PORT
+
+//task middleware cors
+app.use(cors({
+    origin: frontend //porta standard react nascosta dal .env
+}))
 
 //task middleware gestionePathIMG
 app.use(imagePathMiddleware)
@@ -24,11 +30,6 @@ app.use(express.json())
 //task monto il router
 app.use('/movies', moviesRouter)
 
-//task middleware cors
-app.use(cors({
-    origin: process.env.FRONTEND_PORT
-    //porta standard react nascosta dal .env
-}))
 
 //task attivazione server
 app.listen(port, () => {
