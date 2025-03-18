@@ -26,7 +26,8 @@ app.use('/movies', moviesRouter)
 
 //task middleware cors
 app.use(cors({
-    origin: "http://localhost:5173" //porta standard react
+    origin: process.env.FRONTEND_PORT
+    //porta standard react nascosta dal .env
 }))
 
 //task attivazione server
