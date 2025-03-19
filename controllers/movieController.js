@@ -94,7 +94,6 @@ function update(req, res) {
 //todo destroy
 function destroy(req, res) {
     const { id } = req.params;
-
     const sql = `DELETE * FROM movies WHERE id = ? `;
 
     connection.query(sql, [id], (err) => {
@@ -107,6 +106,43 @@ function destroy(req, res) {
 
 }
 
-export { index, show, destroy, update };
+//todo storeRev
+function storeRev(req, res) {
+    const { id } = req.params;
+    const { text, name, vote } = req.body;
+
+    const sqlStore = `
+    INSERT INTO reviews
+    (text, name, vote, book_id ) 
+    VALUES (?,?,?,?)
+    `;
+
+    connection.query(sqlStore, [text, name, vote, id], (err, storeResults) => {
+        if (err)
+            return res.status(500).json({
+                error: 'Database Errore StoreReview',
+            });
+
+        res.status(201).json({
+            message: 'rev successfully added',
+            id: storeResults.insertId
+        });
+    })
+
+}
+
+//todo store
+function store(req, res) {
+    //? l'id qui non VA aggiunto perchè accede all'autoincrement
+
+}
+
+export {
+    index,
+    show,
+    destroy,
+    update,
+    storeRev
+};
 
 

@@ -9,15 +9,18 @@ import {
     index,
     show,
     destroy,
-    update
+    update,
+    storeRev
 } from "../controllers/movieController.js"
 
 //*routing movies
 /*SyntaxRecap ==> {
-    //? router.get('/:id', show)    
+    //* router.VERBO('percorsoRadice/:Params', middleware, 'CallBack')
+    //? router.post('/', upload.single('image') ,store)    
     router: istanza di express.Router() => definisce route modulari
-    .get('/'): verboHTTP.('percorsoRadice /: Params')
-    show : funzione CallBack importata da movieController
+    .post('/'): verboHTTP.('percorsoRadice /: Params'(eventuale) )
+    upload.single('image'): middlewareMulter => elabora caricamento singolo file dal campo 'image' del form
+    store : funzione CallBack importata da movieController
 }*/
 
 //todo index ==>risultato finale = localhost:3000/movies
@@ -32,6 +35,8 @@ router.delete('/:id', destroy)
 //todo update ==>risultato finale = localhost:3000/movies/:id
 router.patch('/:id', update)
 
+//todo storeRev ==>risultato finale = localhost:3000/movies/:id
+router.post('/:id/revs', storeRev)
 
 
 //task esportazione
