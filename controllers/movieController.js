@@ -112,16 +112,14 @@ function storeRev(req, res) {
     const { text, name, vote } = req.body;
 
     const sqlStore = `
-    INSERT INTO reviews
-    (text, name, vote, book_id ) 
+    INSERT INTO reviews (text, name, vote, movie_id ) 
     VALUES (?,?,?,?)
     `;
 
     connection.query(sqlStore, [text, name, vote, id], (err, storeResults) => {
-        if (err)
-            return res.status(500).json({
-                error: 'Database Errore StoreReview',
-            });
+        if (err) return res.status(500).json({
+            error: 'Database Errore StoreReview',
+        });
 
         res.status(201).json({
             message: 'rev successfully added',
